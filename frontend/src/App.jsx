@@ -20,7 +20,8 @@ function App() {
     setResult(null);
 
     try {
-      const response = await axios.post('http://127.0.0.1:5000/predict', {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+      const response = await axios.post(`${apiUrl}/predict`, {
         combined_text: text
       });
       setResult(response.data);
