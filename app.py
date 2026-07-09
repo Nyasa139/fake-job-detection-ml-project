@@ -22,10 +22,10 @@ except FileNotFoundError:
 
 print("Loading Keras model...")
 try:
-    model = load_model("Fake_job_detection.h5") 
+    model = load_model("Fake_job_detection.keras") 
     print("Keras model loaded!")
 except OSError:
-    print("ERROR: 'Fake_job_detection.h5' not found. Check the filename.")
+    print("ERROR: 'Fake_job_detection.keras' not found. Check the filename.")
 
 MAX_SEQUENCE_LENGTH = 200
 
