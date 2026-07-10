@@ -11,7 +11,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.models import load_model
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 print("Loading tokenizer...")
 try:
     with open("tokenizer.pkl", "rb") as f:
@@ -47,12 +47,13 @@ def predict():
     if not combined_text:
         return jsonify({"error": "Please enter the job description."}), 400
 
-    input_data = preprocess_text(combined_text)
+    padded = preprocess_text(combined_text)
 
-    prediction = model.predict(input_data)[0][0]
+    pred_tensor = model(padded, training=False)
+    pred = float(pred_tensor[0][0])
     
-    result = "Fraudulent" if prediction > 0.7 else "Legitimate"
-    score = float(prediction)
+    result = "Fraudulent" if pred > 0.5 else "Legitimate"
+    score = pred
 
     return jsonify({"result": result, "score": score})
 
