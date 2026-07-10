@@ -29,8 +29,16 @@ except OSError:
 
 MAX_SEQUENCE_LENGTH = 200
 
+import re
+def clean_text(text):
+    text = re.sub(r'http\S+|www\S+', ' ', text)
+    text = re.sub(r'[^a-zA-Z\s]', ' ', text)
+    text = text.lower().strip()
+    return text
+
 def preprocess_text(text):
-    sequence = tokenizer.texts_to_sequences([text])
+    cleaned = clean_text(text)
+    sequence = tokenizer.texts_to_sequences([cleaned])
     return pad_sequences(sequence, maxlen=MAX_SEQUENCE_LENGTH, dtype="float32")
 
 @app.route("/", methods=["GET"])
