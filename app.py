@@ -43,7 +43,11 @@ def preprocess_text(text):
 
 @app.route("/", methods=["GET"])
 def home():
-    return jsonify({"message": "API is running"})
+    return jsonify({"message": "API is running", "version": "1.1"})
+
+@app.route("/version", methods=["GET"])
+def version():
+    return jsonify({"version": "1.1"})
 
 @app.route("/predict", methods=["POST"])
 def predict():
